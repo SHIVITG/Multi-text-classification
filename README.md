@@ -52,27 +52,27 @@ if  __name__  ==  "__main__" :
 `RESULTS: Training`
 --------------------Training Started---------------------
 -------------Preprocessing Started--------------
-<class 'pandas.core.frame.DataFrame'>
 RangeIndex: 712 entries, 0 to 711
 Data columns (total 4 columns):
- #   Column           Non-Null Count  Dtype 
----  ------           --------------  ----- 
- 0   content          712 non-null    object
- 1   author           712 non-null    object
- 2   cleaned_content  712 non-null    object
- 3   author_id        712 non-null    int64 
 dtypes: int64(1), object(3)
 memory usage: 22.4+ KB
 None
+
  Shape of dataframe passed: (712, 4)
 -------------Preprocessing Ended--------------
+
 X_train shape:  (569,)
+
 X_test shape:  (143,)
+
 y_train shape:  (569,)
+
 y_test shape:  (143,)
+
 Converting text into vectors..........................
 
 Classifiers used in training:  ['XGBoost Classifier', 'Multinomial Naive Bayes', 'OneVsRest Classifier', 'Random Forest', 'AdaBoost', 'K Nearest Neighbor', 'Stochastic Gradient Descent']
+
 |    | model_name                  |   accuracy_score |   precision_score |   recall_score |   f1_score |   log_loss |
 |---:|:----------------------------|-----------------:|------------------:|---------------:|-----------:|-----------:|
 |  0 | XGBoost Classifier          |         0.622378 |          0.610936 |       0.572246 |   0.583308 |    1.1072  |
@@ -82,6 +82,7 @@ Classifiers used in training:  ['XGBoost Classifier', 'Multinomial Naive Bayes',
 |  5 | K Nearest Neighbor          |         0.384615 |          0.389509 |       0.346919 |   0.314551 |    6.43052 |
 |  4 | AdaBoost                    |         0.391608 |          0.580093 |       0.295762 |   0.271179 |    1.13501 |
 |  1 | Multinomial Naive Bayes     |         0.461538 |          0.250413 |       0.298536 |   0.240056 |    1.61109 |
+
 ---------------------Training Complete !!-------------------
 
 `RESULTS: Prediction`
