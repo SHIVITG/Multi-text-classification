@@ -12,7 +12,6 @@ from math import ceil
 from collections import Counter
 from wordcloud import STOPWORDS
 
-
 stop_words = set(stopwords.words('english'))
 
 
@@ -292,7 +291,7 @@ class FeatureEng():
     
     def get_nrc_data():
         '''Function: Builds an emotion dictionary from the NRC emotion lexicon.'''
-        nrc = "data/emotion-lexicon-wordlevel-alphabetized.txt"
+        nrc = "../data/emotion-lexicon-wordlevel-alphabetized.txt"
         count = 0
         emotion_dict = dict()
         with open(nrc,'r') as f:

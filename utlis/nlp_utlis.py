@@ -15,7 +15,7 @@ from gensim.models import Phrases
 from itertools import combinations
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import TweetTokenizer, RegexpTokenizer
-from sklearn.feature_extraction.stop_words import ENGLISH_STOP_WORDS
+from nltk.corpus import stopwords  
 
 '''Global Parameters'''
 #Contraction dictionary map
@@ -144,7 +144,7 @@ c_re = re.compile('(%s)' % '|'.join(c_dict.keys()))
 
 add_stop = ['', ' ', 'say', 's', 'u', 'ap', 'afp', '...', 'n', '\\']
 
-stop_words = ENGLISH_STOP_WORDS.union(add_stop)
+stop_words = set(stopwords.words('english'))  
 
 tokenizer = TweetTokenizer()
 pattern = r"(?u)\b\w\w+\b" 
