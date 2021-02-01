@@ -9,6 +9,10 @@ ap . add_argument ( "--opt" ,  required = False ,  type = str, help = "values th
 
 args  =  ap . parse_args () 
 
+#defaults
+train_file = "data/content_author_assignment_train.csv"
+test_file = "data/content_author_assignment_test.csv"
+
 # file location
 if  args . file : 
     file = args.file
@@ -23,10 +27,11 @@ def model_exec(opt,file):
         author_predict.training(file)
     elif opt == "prediction":
         author_predict.prediction(file)
+    elif opt == "classification":
+        author_predict.training(train_file)
+        author_predict.prediction(test_file)
     else:
         print("Invalid process entered via command line")
-
-
 
 if  __name__  ==  "__main__" : 
 

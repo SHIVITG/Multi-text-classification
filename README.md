@@ -31,11 +31,14 @@ Columns - content, author
  
  #### Testing
 
+For running training and prediction together: `python3 model.py --opt='classification'`
+
 For training: `python3 model.py --opt=training --file='data/content_author_assignment_train.csv'`
 
 For prediction: `python3 model.py --opt=prediction --file='data/content_author_assignment_test.csv'`
 
 ```python
+
 def model_exec(opt,file):
     if opt == "training":
         AuthPredict.training(file)
@@ -50,7 +53,9 @@ if  __name__  ==  "__main__" :
    
 ```
 `RESULTS: Training`
+
 --------------------Training Started---------------------
+
 -------------Preprocessing Started--------------
 RangeIndex: 712 entries, 0 to 711
 Data columns (total 4 columns):
@@ -87,6 +92,12 @@ Classifiers used in training:  ['XGBoost Classifier', 'Multinomial Naive Bayes',
 
 `RESULTS: Prediction`
 
+--------------------Testing on unseen data-------------------
+
+Fetching all the predictions..............
+ Shape of author_prediction: (855, 3)
+Saved the prediction file to current directory
+ Prediction completed.....Check file for results
 ```python
 
  ### Author: Shivani Tyagi

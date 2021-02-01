@@ -44,14 +44,10 @@ class AuthPredict():
     def preprocessing(data):
         '''Input: Takes a file location (csv file)
            Returns: A preprocessed/cleaned dataframe required for further process'''
-        print("-------------Preprocessing Started--------------")
         df = pd.read_csv(data,encoding="utf-8")
         df['cleaned_content'] = df.content.apply(lambda x: features.clean_text(x))
         df['cleaned_content'] = df.content.apply(lambda x: features.remove_stopwords(x))
         df['author_id'] = LE.fit_transform(df['author'])
-        print(df.info())
-        print(" Shape of dataframe passed:" ,df.shape)
-        print("-------------Preprocessing Ended--------------")
         return df
     
     def get_author_map(df):
@@ -66,15 +62,10 @@ class AuthPredict():
     def split_data(df):
         X_train, X_test, y_train, y_test = train_test_split(df['cleaned_content'],
                                                     df['author_id'], test_size=0.2, random_state=42)
-        print("X_train shape: ",X_train.shape)
-        print("X_test shape: ",X_test.shape)
-        print("y_train shape: ",y_train.shape)
-        print("y_test shape: ",y_test.shape)
         return X_train, X_test, y_train, y_test
     
     #Converting Text into features
     def tfidf_features(self,X_train, X_test):
-        print("Converting text into vectors..........................")
         X_train_vectorized = self.vectorizer.fit_transform(X_train)
         X_test_vectorized = self.vectorizer.transform(X_test)
         return X_train_vectorized,X_test_vectorized
@@ -95,15 +86,24 @@ class AuthPredict():
         model_df = pd.DataFrame([model_name, ac_score_list, p_score_list, r_score_list, f1_score_list,log_loss_list]).T
         model_df.columns = ['model_name', 'accuracy_score', 'precision_score', 'recall_score', 'f1_score','log_loss']
         model_df = model_df.sort_values(by='f1_score', ascending=False)
-        print(model_df.to_markdown())
         return model_df
     
     def training(self,train_file):
         print("--------------------Training Started---------------------")
+        print("------------------Preprocessing Started------------------")
         df =  AuthPredict.preprocessing(train_file)
+        print(df.info())
+        print(" Shape of dataframe passed:" ,df.shape)
+        print("-------------Preprocessing Ended--------------")
         X_train, X_test, y_train, y_test =  AuthPredict.split_data(df)
+        print("X_train shape: ",X_train.shape)
+        print("X_test shape: ",X_test.shape)
+        print("y_train shape: ",y_train.shape)
+        print("y_test shape: ",y_test.shape)
+        print("Converting text into vectors..........................")
         X_train_vectorized,X_test_vectorized = AuthPredict.tfidf_features(self,X_train, X_test)
         model_df = AuthPredict.model_classifiers_score(model_dict,X_train_vectorized,X_test_vectorized,y_train, y_test)
+        print(model_df.to_markdown())
         print("---------------------Training Complete !!-------------------")
         return model_df
     
@@ -116,11 +116,16 @@ class AuthPredict():
         return author
     
     def prediction(self,test_file):
+        df =  AuthPredict.preprocessing('data/content_author_assignment_train.csv')
+        X_train, X_test, y_train, y_test =  AuthPredict.split_data(df)
+        X_train_vectorized,X_test_vectorized = AuthPredict.tfidf_features(self,X_train, X_test)
+        model_df = AuthPredict.model_classifiers_score(model_dict,X_train_vectorized,X_test_vectorized,y_train, y_test)
         print("--------------------Testing on unseen data-------------------")
         unseen_data = pd.read_csv(test_file)
         unseen_data_raw = unseen_data.copy()
         # Preparing unseen data for inference
         unseen_data['cleaned_content'] = unseen_data.content.apply(lambda x: features.clean_text(x))
+        print("Fetching all the predictions..............")
         predicted_author = []
         for content in unseen_data['cleaned_content']:
             pred = AuthPredict.make_inference(self,content)
@@ -130,6 +135,7 @@ class AuthPredict():
         print(" Shape of author_prediction:" ,author_predictions.shape)
         author_predictions.to_csv('author_predictions.csv',index=False)
         print("Saved the prediction file to current directory")
+        print(" Prediction completed.....Check file for results")
         return author_predictions
     
 if  __name__  ==  "__main__" :
