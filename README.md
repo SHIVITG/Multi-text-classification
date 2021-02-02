@@ -99,5 +99,3 @@ Fetching all the predictions..............
 Saved the prediction file to current directory
  Prediction completed.....Check file for results
 ```python
-
- ### Author: Shivani Tyagi
